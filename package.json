@@ -1,0 +1,52 @@
+{
+    "name": "node-red-docker",
+    "version": "3.6.5",
+    "description": "A visual tool for wiring the Internet of Things",
+    "homepage": "http://nodered.org",
+    "license": "Apache 2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/node-red/node-red-docker.git"
+    },
+    "main": "node_modules/node-red/red/red.js",
+    "scripts": {
+        "start": "node-red -v $FLOWS",
+        "debug": "node --inspect=0.0.0.0:9229 $NODE_OPTIONS node_modules/node-red/red.js $FLOWS",
+        "debug_brk": "node --inspect=0.0.0.0:9229 --inspect-brk $NODE_OPTIONS node_modules/node-red/red.js $FLOWS"
+    },
+    "dependencies": {
+        "@flowfuse/node-red-dashboard": "~1.23.0",
+        "@kevingodell/node-red-ffmpeg": "~0.1.1-beta.3",
+        "jsdom": "^26.1.0",
+        "node-red": "4.0.9",
+        "node-red-contrib-bosch-shc": "~0.6.35",
+        "node-red-contrib-cpu": "~0.0.4",
+        "node-red-contrib-cron-plus": "~2.1.0",
+        "node-red-contrib-custom-ffmpeg-video": "~0.1.2",
+        "node-red-contrib-ffmpeg": "~0.1.1",
+        "node-red-contrib-fs": "~1.4.1",
+        "node-red-contrib-modbus": "~5.43.0",
+        "node-red-contrib-dialog": "file:node-red-contrib-dialog",
+        "node-red-contrib-os": "~0.2.1",
+        "node-red-contrib-regression": "~1.0.0",
+        "node-red-contrib-shelly": "~11.5.9",
+        "node-red-contrib-sma-webconnect": "~0.4.0",
+        "node-red-contrib-smartmeter": "~0.6.3",
+        "node-red-contrib-tapo-new-api": "~0.5.4",
+        "node-red-contrib-ui-contextmenu": "~2.0.1",
+        "node-red-contrib-ui-led": "~0.4.11",
+        "node-red-contrib-ui-level": "~0.1.46",
+        "node-red-contrib-utils": "~0.1.0",
+        "node-red-dashboard": "~3.6.5",
+        "node-red-node-base64": "~1.0.0",
+        "node-red-node-email": "~3.0.3",
+        "node-red-node-mysql": "~2.0.0",
+        "node-red-node-serialport": "~2.0.3",
+        "node-red-node-smooth": "~0.1.2",
+        "node-red-node-ui-iframe": "~0.2.1",
+        "node-red-node-ui-table": "~0.4.4"        
+    },
+    "engines": {
+        "node": ">=20.19.0"
+    }
+}
