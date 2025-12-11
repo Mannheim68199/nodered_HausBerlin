@@ -44,9 +44,15 @@
         "node-red-node-serialport": "~2.0.3",
         "node-red-node-smooth": "~0.1.2",
         "node-red-node-ui-iframe": "~0.2.1",
-        "node-red-node-ui-table": "~0.4.4"        
+        "node-red-node-ui-table": "~0.4.4"
     },
     "engines": {
         "node": ">=20.19.0"
+    },
+    "node-red": {
+        "settings": {
+            "flowFile": "Haus.json",
+            "credentialsFile": "Haus_cred.json"
+        }
     }
 }
