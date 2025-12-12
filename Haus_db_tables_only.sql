@@ -84,10 +84,10 @@ CREATE TABLE `BATTERIE_SoC` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `BKL`
+-- Tabellenstruktur für Tabelle `BKW`
 --
 
-CREATE TABLE `BKL` (
+CREATE TABLE `BKW` (
   `ID` int(11) NOT NULL,
   `DATUM` datetime NOT NULL,
   `Power` decimal(10,3) NOT NULL,
@@ -408,9 +408,9 @@ ALTER TABLE `BATTERIE_SoC`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indizes für die Tabelle `BKL`
+-- Indizes für die Tabelle `BKW`
 --
-ALTER TABLE `BKL`
+ALTER TABLE `BKW`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -569,9 +569,9 @@ ALTER TABLE `BATTERIE_SoC`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `BKL`
+-- AUTO_INCREMENT für Tabelle `BKW`
 --
-ALTER TABLE `BKL`
+ALTER TABLE `BKW`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
