@@ -3272,7 +3272,7 @@
         "z": "9c1295b5ec6ef860",
         "g": "53f56fc820696774",
         "name": "SMA_Tages_Daten",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -3655,7 +3655,6 @@
                 "2795609ed26a671a"
             ],
             [
-                "c00a63d4a4dd3391",
                 "6e464a8ffa898d81"
             ]
         ]
@@ -3881,8 +3880,9 @@
         "z": "9c1295b5ec6ef860",
         "g": "387a2094972caf2c",
         "name": "insertSql4HausVerbrauch",
-        "func": "let oData = global.get(\"PV-Daten\");\nmsg.StromData = oData;\nlet dNow = new Date();\nmsg.iOffset = global.get(\"TimezoneOffset\");\ndNow.setHours(dNow.getHours() + msg.iOffset);\nlet sDatum = dNow.toISOString().substring(0, 16).replace(\"T\", \" \") + \":00\";\nmsg.sDatum = sDatum;\nmsg.topic = \"\";\nlet bSave = false;\nif ( oData.HausVerbrauch > 0 ) {\n    msg.topic += \"insert into STROM_AKT_VERBRAUCH (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.HausVerbrauch + \");\";\n    bSave = true;\n}\nif (oData.aktErzeugung > 0) {\n    msg.topic += \"insert into PV_AKT_LEISTUNG (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.aktErzeugung + \");\";\n    bSave = true;\n}\nif (oData.aktEinspeisung > 0) {\n    msg.topic += \"insert into STROM_AKT_LIEFERUNG (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.aktEinspeisung + \");\";\n    bSave = true;\n}\nif (oData.aktBezug > 0) {\n    msg.topic += \"insert into STROM_AKT_BEZUG (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.aktBezug + \");\";\n    bSave = true;\n}\nif ( bSave ) {\n    return msg;\n}",
+        "func": "let oData = global.get(\"PV-Daten\");\nmsg.StromData = oData;\nlet dNow = new Date();\nmsg.iOffset = global.get(\"TimezoneOffset\");\n//dNow.setHours(dNow.getHours() + msg.iOffset);\nlet sDatum = dNow.toISOString().substring(0, 16).replace(\"T\", \" \") + \":00\";\nmsg.sDatum = sDatum;\nmsg.topic = \"\";\nlet bSave = false;\nif ( oData.HausVerbrauch > 0 ) {\n    msg.topic += \"insert into STROM_AKT_VERBRAUCH (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.HausVerbrauch + \");\";\n    bSave = true;\n}\nif (oData.aktErzeugung > 0) {\n    msg.topic += \"insert into PV_AKT_LEISTUNG (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.aktErzeugung + \");\";\n    bSave = true;\n}\nif (oData.aktEinspeisung > 0) {\n    msg.topic += \"insert into STROM_AKT_LIEFERUNG (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.aktEinspeisung + \");\";\n    bSave = true;\n}\nif (oData.aktBezug > 0) {\n    msg.topic += \"insert into STROM_AKT_BEZUG (DATUM, WERT) values ('\" + sDatum + \"', \" + oData.aktBezug + \");\";\n    bSave = true;\n}\nif ( bSave ) {\n    return msg;\n}",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -3941,7 +3941,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 970,
+        "x": 1090,
         "y": 100,
         "wires": []
     },
@@ -3951,8 +3951,9 @@
         "z": "9c1295b5ec6ef860",
         "g": "cb2f39656ca92b3b",
         "name": "getSql",
-        "func": "let dDate = new Date();\ndDate.setDate(dDate.getDate()-1);\nlet sDatumAb = dDate.toISOString().substring(0, 19).replace(\"T\",\" \");\nmsg.Quelle = msg.topic;\nswitch (msg.Quelle) {\n    case 'Haus':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `STROM_AKT_VERBRAUCH` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Verbrauch\";\n        break;\n    case 'Netz':\n        msg.topic =  \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `STROM_AKT_LIEFERUNG` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n//        msg.topic += \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `STROM_AKT_BEZUG` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Lieferung Wh\";\n        break;\n    case 'PV':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `PV_AKT_LEISTUNG` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Erzeugung Wh\";\n        break;\n    case 'BKW':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(Power) as 'Verbrauch' FROM `BKL` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Erzeugung Wh\";\n        break;\n    case 'Batterie':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `BATTERIE_SoC` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Ladung %\";\n//        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `BATTERIE_ENTLADUNG` where DATUM > ' \" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        break;\n    case 'Auto':\n        msg.topic = \"SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(Energie) as 'Verbrauch' FROM ECAR where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY DATUM desc;\";\n        msg.Typ = \"Verbrauch Wh\";\n        break;\n    default:\n        return;\n}\nreturn msg;\n",
+        "func": "let dDate = new Date();\ndDate.setDate(dDate.getDate()-1);\nlet sDatumAb = dDate.toISOString().substring(0, 19).replace(\"T\",\" \");\nmsg.Quelle = msg.topic;\nswitch (msg.Quelle) {\n    case 'Haus':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `STROM_AKT_VERBRAUCH` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Verbrauch\";\n        break;\n    case 'Netz':\n        let bFlagNetz = !!global.get(\"Netz_Flag\");\n        if ( bFlagNetz ) {\n            msg.topic =  \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `STROM_AKT_LIEFERUNG` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n            msg.Typ = \"Lieferung Wh\";\n        } else {\n            msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `STROM_AKT_BEZUG` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n            msg.Typ = \"Bezug Wh\";\n        }\n        global.set(\"Netz_Flag\", !bFlagNetz);\n        break;\n    case 'PV':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `PV_AKT_LEISTUNG` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Erzeugung Wh\";\n        break;\n    case 'BKW':\n        msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(Power) as 'Verbrauch' FROM `BKL` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n        msg.Typ = \"Erzeugung Wh\";\n        break;\n    case 'Batterie':\n        let iBat = parseInt(global.get(\"Batterie_enum\")) ? global.get(\"Batterie_enum\") : 0;\n        //node.warn(\" Batterie: \" + iBat);\n        switch ( iBat ) {\n            case 0:\n                msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `BATTERIE_SoC` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n                msg.Typ = \"SoC %\";\n                break;\n            case 1:\n                msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `BATTERIE_ENTLADUNG_10MinutenWerte_V` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n                msg.Typ = \"Entladung Wh\";\n                break;\n            case 2:\n                msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `BATTERIE_LADUNG_10MinutenWerte_V` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n                msg.Typ = \"Ladung Wh\";\n                break;\n            default:\n                msg.topic = \" SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(WERT) as 'Verbrauch' FROM `BATTERIE_SoC` where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY `DATUM` DESC; \";\n                msg.Typ = \"SoC %\";\n        }\n        iBat = (iBat + 1) % 3;\n        global.set(\"Batterie_enum\", iBat);\n        break;\n    case 'Auto':\n        msg.topic = \"SELECT SUBSTRING(DATUM, 1, 15) AS 'Datum', AVG(Energie) as 'Verbrauch' FROM ECAR where DATUM > '\" + sDatumAb + \"' GROUP BY SUBSTRING(DATUM, 1, 15) ORDER BY DATUM desc;\";\n        msg.Typ = \"Verbrauch Wh\";\n        break;\n    default:\n        return;\n}\nreturn msg;\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -3961,7 +3962,8 @@
         "y": 140,
         "wires": [
             [
-                "55b62a99b14a24ca"
+                "55b62a99b14a24ca",
+                "c00a63d4a4dd3391"
             ]
         ]
     },
@@ -3986,8 +3988,9 @@
         "z": "9c1295b5ec6ef860",
         "g": "cb2f39656ca92b3b",
         "name": "getVerbrauch",
-        "func": "let aBarValues = [];\nlet aBarLabels = [];\nlet fLastValue = 0;\nlet sLabel = msg.Quelle.split(\" \")[0];\nlet sUnit = msg.Quelle.split(\" \")[1];\nmsg.aDaten = msg.payload;\nmsg.payload.reverse().forEach(oItem => {\n    let sDatum = oItem.Datum + \"5\";\n    let fValue = 0;\n    switch (msg.Quelle) {\n        case \"Batterie\":\n            fValue = oItem.Verbrauch;\n            break;\n        case \"Auto\":\n            fValue = parseInt(10 * (oItem.Verbrauch - fLastValue)) / 10;\n            break;\n        default:\n            fValue = parseInt(10 * (oItem.Verbrauch + fLastValue)) / 10;\n    }\n    fLastValue = oItem.Verbrauch;\n    aBarValues.push(fValue);\n    aBarLabels.push(sDatum.substring(11,17));\n});\naBarValues.shift();\naBarLabels.shift();\nmsg.aBarValues = aBarValues;\nmsg.aBarLabels = aBarLabels;\nmsg.payload = [{\n    \"labels\": aBarLabels,\n    \"series\": [sLabel],\n    \"data\": [aBarValues]\n}];\nreturn msg;",
+        "func": "let aBarValues = [];\nlet aBarLabels = [];\nlet fLastValue = 0;\nlet sLabel = msg.Quelle.split(\" \")[0];\nlet sUnit = msg.Quelle.split(\" \")[1];\nmsg.aDaten = msg.payload;\nmsg.payload.reverse().forEach(oItem => {\n    let sDatum = oItem.Datum + \"5\";\n    let dDatum = new Date(sDatum);\n    //dDatum.setHours(dDatum.getHours() - 1);\n    sDatum = dDatum.toISOString().substring(0,19).replace(\"T\", \" \");\n    let fValue = 0;\n    switch (msg.Quelle) {\n        case \"Batterie\":\n            fValue = oItem.Verbrauch;\n            break;\n        case \"Auto\":\n            fValue = parseInt(10 * (oItem.Verbrauch - fLastValue)) / 10;\n            break;\n        default:\n            fValue = parseInt(10 * (oItem.Verbrauch + fLastValue)) / 10;\n    }\n    fLastValue = oItem.Verbrauch;\n    aBarValues.push(fValue);\n    aBarLabels.push(sDatum.substring(11,16));\n});\naBarValues.shift();\naBarLabels.shift();\nmsg.aBarValues = aBarValues;\nmsg.aBarLabels = aBarLabels;\nmsg.payload = [{\n    \"labels\": aBarLabels,\n    \"series\": [sLabel],\n    \"data\": [aBarValues]\n}];\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
