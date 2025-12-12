@@ -128,10 +128,10 @@ CREATE TABLE `BATTERIE_SoC` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `BKL`
+-- Tabellenstruktur für Tabelle `BKW`
 --
 
-CREATE TABLE `BKL` (
+CREATE TABLE `BKW` (
   `ID` int(11) NOT NULL,
   `DATUM` datetime NOT NULL,
   `Power` decimal(10,3) NOT NULL,
@@ -703,9 +703,9 @@ ALTER TABLE `BATTERIE_SoC`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indizes für die Tabelle `BKL`
+-- Indizes für die Tabelle `BKW`
 --
-ALTER TABLE `BKL`
+ALTER TABLE `BKW`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -864,9 +864,9 @@ ALTER TABLE `BATTERIE_SoC`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `BKL`
+-- AUTO_INCREMENT für Tabelle `BKW`
 --
-ALTER TABLE `BKL`
+ALTER TABLE `BKW`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -996,7 +996,7 @@ ALTER TABLE `WASSER_BEZUG`
 --
 DROP TABLE IF EXISTS `BATTERIE_ENTLADUNG_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_ENTLADUNG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,7) AS `Monat`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,7) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_ENTLADUNG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,7) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_ENTLADUNG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,7) AS `Monat`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,7) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_ENTLADUNG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,7) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1005,7 +1005,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_
 --
 DROP TABLE IF EXISTS `BATTERIE_ENTLADUNG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_ENTLADUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,10) AS `Tag`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,10) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_ENTLADUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,10) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_ENTLADUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,10) AS `Tag`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,10) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_ENTLADUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`BATTERIE_ENTLADUNG`.`WERT`) AS `Wert` from `BATTERIE_ENTLADUNG` group by substr(`BATTERIE_ENTLADUNG`.`DATUM`,1,10) order by `BATTERIE_ENTLADUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1014,7 +1014,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_
 --
 DROP TABLE IF EXISTS `BATTERIE_LADUNG_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_LADUNG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`BATTERIE_LADUNG`.`DATUM`,1,7) AS `Monat`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,7) order by `BATTERIE_LADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_LADUNG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,7) order by `BATTERIE_LADUNG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_LADUNG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`BATTERIE_LADUNG`.`DATUM`,1,7) AS `Monat`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,7) order by `BATTERIE_LADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_LADUNG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,7) order by `BATTERIE_LADUNG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1023,7 +1023,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_
 --
 DROP TABLE IF EXISTS `BATTERIE_LADUNG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_LADUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`BATTERIE_LADUNG`.`DATUM`,1,10) AS `Tag`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,10) order by `BATTERIE_LADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_LADUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,10) order by `BATTERIE_LADUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_LADUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`BATTERIE_LADUNG`.`DATUM`,1,10) AS `Tag`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,10) order by `BATTERIE_LADUNG`.`DATUM` desc) `a` join (select substr(`BATTERIE_LADUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`BATTERIE_LADUNG`.`WERT`) AS `Wert` from `BATTERIE_LADUNG` group by substr(`BATTERIE_LADUNG`.`DATUM`,1,10) order by `BATTERIE_LADUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1032,7 +1032,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BATTERIE_
 --
 DROP TABLE IF EXISTS `BKW_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BKW_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Energie`- `b`.`Energie` AS `MonatsWert` FROM ((select substr(`BKL`.`DATUM`,1,7) AS `Monat`,max(`BKL`.`TotalEnergy`) AS `Energie` from `BKL` group by substr(`BKL`.`DATUM`,1,7) order by `BKL`.`DATUM` desc) `a` join (select substr(`BKL`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`BKL`.`TotalEnergy`) AS `Energie` from `BKL` group by substr(`BKL`.`DATUM`,1,7) order by `BKL`.`DATUM` desc) `b` on(`b`.`Monat` = `a`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `BKW_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Energie`- `b`.`Energie` AS `MonatsWert` FROM ((select substr(`BKW`.`DATUM`,1,7) AS `Monat`,max(`BKW`.`TotalEnergy`) AS `Energie` from `BKW` group by substr(`BKW`.`DATUM`,1,7) order by `BKW`.`DATUM` desc) `a` join (select substr(`BKW`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`BKW`.`TotalEnergy`) AS `Energie` from `BKW` group by substr(`BKW`.`DATUM`,1,7) order by `BKW`.`DATUM` desc) `b` on(`b`.`Monat` = `a`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1041,7 +1041,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BKW_Monat
 --
 DROP TABLE IF EXISTS `BKW_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BKW_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Energie`- `b`.`Energie` AS `TagesWert` FROM ((select substr(`BKL`.`DATUM`,1,10) AS `Tag`,max(`BKL`.`TotalEnergy`) AS `Energie` from `BKL` group by substr(`BKL`.`DATUM`,1,10) order by `BKL`.`DATUM` desc) `a` join (select substr(`BKL`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`BKL`.`TotalEnergy`) AS `Energie` from `BKL` group by substr(`BKL`.`DATUM`,1,10) order by `BKL`.`DATUM` desc) `b` on(`b`.`Tag` = `a`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `BKW_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Energie`- `b`.`Energie` AS `TagesWert` FROM ((select substr(`BKW`.`DATUM`,1,10) AS `Tag`,max(`BKW`.`TotalEnergy`) AS `Energie` from `BKW` group by substr(`BKW`.`DATUM`,1,10) order by `BKW`.`DATUM` desc) `a` join (select substr(`BKW`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`BKW`.`TotalEnergy`) AS `Energie` from `BKW` group by substr(`BKW`.`DATUM`,1,10) order by `BKW`.`DATUM` desc) `b` on(`b`.`Tag` = `a`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1050,7 +1050,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `BKW_Tages
 --
 DROP TABLE IF EXISTS `ECAR_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `ECAR_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Energie`- `b`.`Energie` AS `MonatsWert` FROM ((select substr(`ECAR`.`DATUM`,1,7) AS `Monat`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,7) order by `ECAR`.`DATUM` desc) `a` join (select substr(`ECAR`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,7) order by `ECAR`.`DATUM` desc) `b` on(`b`.`Monat` = `a`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `ECAR_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Energie`- `b`.`Energie` AS `MonatsWert` FROM ((select substr(`ECAR`.`DATUM`,1,7) AS `Monat`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,7) order by `ECAR`.`DATUM` desc) `a` join (select substr(`ECAR`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,7) order by `ECAR`.`DATUM` desc) `b` on(`b`.`Monat` = `a`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1059,7 +1059,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `ECAR_Mona
 --
 DROP TABLE IF EXISTS `ECAR_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `ECAR_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Energie`- `b`.`Energie` AS `TagesWert` FROM ((select substr(`ECAR`.`DATUM`,1,10) AS `Tag`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,10) order by `ECAR`.`DATUM` desc) `a` join (select substr(`ECAR`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,10) order by `ECAR`.`DATUM` desc) `b` on(`b`.`Tag` = `a`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `ECAR_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Energie`- `b`.`Energie` AS `TagesWert` FROM ((select substr(`ECAR`.`DATUM`,1,10) AS `Tag`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,10) order by `ECAR`.`DATUM` desc) `a` join (select substr(`ECAR`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`ECAR`.`Energie`) AS `Energie` from `ECAR` group by substr(`ECAR`.`DATUM`,1,10) order by `ECAR`.`DATUM` desc) `b` on(`b`.`Tag` = `a`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1068,7 +1068,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `ECAR_Tage
 --
 DROP TABLE IF EXISTS `GAS_BEZUG_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `GAS_BEZUG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`GAS_BEZUG`.`DATUM`,1,7) AS `Monat`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,7) order by `GAS_BEZUG`.`DATUM` desc) `a` join (select substr(`GAS_BEZUG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,7) order by `GAS_BEZUG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `GAS_BEZUG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`GAS_BEZUG`.`DATUM`,1,7) AS `Monat`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,7) order by `GAS_BEZUG`.`DATUM` desc) `a` join (select substr(`GAS_BEZUG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,7) order by `GAS_BEZUG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1077,7 +1077,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `GAS_BEZUG
 --
 DROP TABLE IF EXISTS `GAS_BEZUG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `GAS_BEZUG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`GAS_BEZUG`.`DATUM`,1,10) AS `Tag`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,10) order by `GAS_BEZUG`.`DATUM` desc) `a` join (select substr(`GAS_BEZUG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,10) order by `GAS_BEZUG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `GAS_BEZUG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`GAS_BEZUG`.`DATUM`,1,10) AS `Tag`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,10) order by `GAS_BEZUG`.`DATUM` desc) `a` join (select substr(`GAS_BEZUG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`GAS_BEZUG`.`WERT`) AS `Wert` from `GAS_BEZUG` group by substr(`GAS_BEZUG`.`DATUM`,1,10) order by `GAS_BEZUG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1086,7 +1086,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `GAS_BEZUG
 --
 DROP TABLE IF EXISTS `PV_ERTRAG_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `PV_ERTRAG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,7) AS `Monat`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,7) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `a` join (select substr(`PV_GESAMT_ERTRAG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,7) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `PV_ERTRAG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,7) AS `Monat`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,7) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `a` join (select substr(`PV_GESAMT_ERTRAG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,7) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1095,7 +1095,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `PV_ERTRAG
 --
 DROP TABLE IF EXISTS `PV_ERTRAG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `PV_ERTRAG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,10) AS `Tag`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,10) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `a` join (select substr(`PV_GESAMT_ERTRAG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,10) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `PV_ERTRAG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,10) AS `Tag`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,10) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `a` join (select substr(`PV_GESAMT_ERTRAG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`PV_GESAMT_ERTRAG`.`WERT`) AS `Wert` from `PV_GESAMT_ERTRAG` group by substr(`PV_GESAMT_ERTRAG`.`DATUM`,1,10) order by `PV_GESAMT_ERTRAG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1104,7 +1104,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `PV_ERTRAG
 --
 DROP TABLE IF EXISTS `SMA_JahresDaten_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_JahresDaten_V`  AS SELECT substr(`SMA_DATEN`.`DATUM`,1,4) AS `JAHR`, sum(`SMA_DATEN`.`PV_Energie`) AS `PV_Energie`, sum(`SMA_DATEN`.`BKW_Energie`) AS `BKW_Energie`, sum(`SMA_DATEN`.`Bat_Ladung`) AS `Bat_Ladung`, sum(`SMA_DATEN`.`Bat_Entladung`) AS `Bat_Entladung`, sum(`SMA_DATEN`.`Netz_Bezug`) AS `Netz_Bezug`, sum(`SMA_DATEN`.`Netz_Einspeisung`) AS `Netz_Einspeisung`, sum(`SMA_DATEN`.`Haus_Verbrauch`) AS `Haus_Verbrauch`, sum(`SMA_DATEN`.`Auto_Verbrauch`) AS `Auto_Verbrauch`, sum(`SMA_DATEN`.`Direkt_Verbrauch`) AS `Direkt_Verbrauch` FROM `SMA_DATEN` GROUP BY substr(`SMA_DATEN`.`DATUM`,1,4) ORDER BY `SMA_DATEN`.`DATUM` DESC ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `SMA_JahresDaten_V`  AS SELECT substr(`SMA_DATEN`.`DATUM`,1,4) AS `JAHR`, sum(`SMA_DATEN`.`PV_Energie`) AS `PV_Energie`, sum(`SMA_DATEN`.`BKW_Energie`) AS `BKW_Energie`, sum(`SMA_DATEN`.`Bat_Ladung`) AS `Bat_Ladung`, sum(`SMA_DATEN`.`Bat_Entladung`) AS `Bat_Entladung`, sum(`SMA_DATEN`.`Netz_Bezug`) AS `Netz_Bezug`, sum(`SMA_DATEN`.`Netz_Einspeisung`) AS `Netz_Einspeisung`, sum(`SMA_DATEN`.`Haus_Verbrauch`) AS `Haus_Verbrauch`, sum(`SMA_DATEN`.`Auto_Verbrauch`) AS `Auto_Verbrauch`, sum(`SMA_DATEN`.`Direkt_Verbrauch`) AS `Direkt_Verbrauch` FROM `SMA_DATEN` GROUP BY substr(`SMA_DATEN`.`DATUM`,1,4) ORDER BY `SMA_DATEN`.`DATUM` DESC ;
 
 -- --------------------------------------------------------
 
@@ -1113,7 +1113,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_Jahre
 --
 DROP TABLE IF EXISTS `SMA_MonatsDaten_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_MonatsDaten_V`  AS SELECT substr(`SMA_DATEN`.`DATUM`,1,7) AS `MONAT`, sum(`SMA_DATEN`.`PV_Energie`) AS `PV_Energie`, sum(`SMA_DATEN`.`BKW_Energie`) AS `BKW_Energie`, sum(`SMA_DATEN`.`Bat_Ladung`) AS `Bat_Ladung`, sum(`SMA_DATEN`.`Bat_Entladung`) AS `Bat_Entladung`, sum(`SMA_DATEN`.`Netz_Bezug`) AS `Netz_Bezug`, sum(`SMA_DATEN`.`Netz_Einspeisung`) AS `Netz_Einspeisung`, sum(`SMA_DATEN`.`Haus_Verbrauch`) AS `Haus_Verbrauch`, sum(`SMA_DATEN`.`Auto_Verbrauch`) AS `Auto_Verbrauch`, sum(`SMA_DATEN`.`Direkt_Verbrauch`) AS `Direkt_Verbrauch` FROM `SMA_DATEN` GROUP BY substr(`SMA_DATEN`.`DATUM`,1,7) ORDER BY `SMA_DATEN`.`DATUM` DESC ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `SMA_MonatsDaten_V`  AS SELECT substr(`SMA_DATEN`.`DATUM`,1,7) AS `MONAT`, sum(`SMA_DATEN`.`PV_Energie`) AS `PV_Energie`, sum(`SMA_DATEN`.`BKW_Energie`) AS `BKW_Energie`, sum(`SMA_DATEN`.`Bat_Ladung`) AS `Bat_Ladung`, sum(`SMA_DATEN`.`Bat_Entladung`) AS `Bat_Entladung`, sum(`SMA_DATEN`.`Netz_Bezug`) AS `Netz_Bezug`, sum(`SMA_DATEN`.`Netz_Einspeisung`) AS `Netz_Einspeisung`, sum(`SMA_DATEN`.`Haus_Verbrauch`) AS `Haus_Verbrauch`, sum(`SMA_DATEN`.`Auto_Verbrauch`) AS `Auto_Verbrauch`, sum(`SMA_DATEN`.`Direkt_Verbrauch`) AS `Direkt_Verbrauch` FROM `SMA_DATEN` GROUP BY substr(`SMA_DATEN`.`DATUM`,1,7) ORDER BY `SMA_DATEN`.`DATUM` DESC ;
 
 -- --------------------------------------------------------
 
@@ -1122,7 +1122,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_Monat
 --
 DROP TABLE IF EXISTS `SMA_STROM_BEZUG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_STROM_BEZUG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`SMA_STROM_BEZUG`.`DATUM`,1,10) AS `Tag`,max(`SMA_STROM_BEZUG`.`WERT`) AS `Wert` from `SMA_STROM_BEZUG` group by substr(`SMA_STROM_BEZUG`.`DATUM`,1,10) order by `SMA_STROM_BEZUG`.`DATUM` desc) `a` join (select substr(`SMA_STROM_BEZUG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`SMA_STROM_BEZUG`.`WERT`) AS `Wert` from `SMA_STROM_BEZUG` group by substr(`SMA_STROM_BEZUG`.`DATUM`,1,10) order by `SMA_STROM_BEZUG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `SMA_STROM_BEZUG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`SMA_STROM_BEZUG`.`DATUM`,1,10) AS `Tag`,max(`SMA_STROM_BEZUG`.`WERT`) AS `Wert` from `SMA_STROM_BEZUG` group by substr(`SMA_STROM_BEZUG`.`DATUM`,1,10) order by `SMA_STROM_BEZUG`.`DATUM` desc) `a` join (select substr(`SMA_STROM_BEZUG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`SMA_STROM_BEZUG`.`WERT`) AS `Wert` from `SMA_STROM_BEZUG` group by substr(`SMA_STROM_BEZUG`.`DATUM`,1,10) order by `SMA_STROM_BEZUG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1131,7 +1131,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_STROM
 --
 DROP TABLE IF EXISTS `SMA_STROM_EINSPEISUNG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_STROM_EINSPEISUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`SMA_STROM_EINSPEISUNG`.`DATUM`,1,10) AS `Tag`,max(`SMA_STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `SMA_STROM_EINSPEISUNG` group by substr(`SMA_STROM_EINSPEISUNG`.`DATUM`,1,10) order by `SMA_STROM_EINSPEISUNG`.`DATUM` desc) `a` join (select substr(`SMA_STROM_EINSPEISUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`SMA_STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `SMA_STROM_EINSPEISUNG` group by substr(`SMA_STROM_EINSPEISUNG`.`DATUM`,1,10) order by `SMA_STROM_EINSPEISUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `SMA_STROM_EINSPEISUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`SMA_STROM_EINSPEISUNG`.`DATUM`,1,10) AS `Tag`,max(`SMA_STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `SMA_STROM_EINSPEISUNG` group by substr(`SMA_STROM_EINSPEISUNG`.`DATUM`,1,10) order by `SMA_STROM_EINSPEISUNG`.`DATUM` desc) `a` join (select substr(`SMA_STROM_EINSPEISUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`SMA_STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `SMA_STROM_EINSPEISUNG` group by substr(`SMA_STROM_EINSPEISUNG`.`DATUM`,1,10) order by `SMA_STROM_EINSPEISUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1140,7 +1140,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_STROM
 --
 DROP TABLE IF EXISTS `SMA_TagesDaten_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_TagesDaten_V`  AS SELECT substr(`SMA_TAGES_DATEN`.`DATUM`,1,10) AS `Tag`, max(`SMA_TAGES_DATEN`.`PV_Energie`) AS `PV`, max(`SMA_TAGES_DATEN`.`BKW_Energie`) AS `BKW`, max(`SMA_TAGES_DATEN`.`Netz_Bezug`) AS `Bezug`, max(`SMA_TAGES_DATEN`.`Netz_Einspeisung`) AS `Einspeisung`, max(`SMA_TAGES_DATEN`.`Haus_Verbrauch`) AS `Verbrauch`, max(`SMA_TAGES_DATEN`.`Auto_Verbrauch`) AS `Auto`, max(`SMA_TAGES_DATEN`.`Direkt_Verbrauch`) AS `Direkt` FROM `SMA_TAGES_DATEN` GROUP BY substr(`SMA_TAGES_DATEN`.`DATUM`,1,10) ORDER BY substr(`SMA_TAGES_DATEN`.`DATUM`,1,10) ASC ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `SMA_TagesDaten_V`  AS SELECT substr(`SMA_TAGES_DATEN`.`DATUM`,1,10) AS `Tag`, max(`SMA_TAGES_DATEN`.`PV_Energie`) AS `PV`, max(`SMA_TAGES_DATEN`.`BKW_Energie`) AS `BKW`, max(`SMA_TAGES_DATEN`.`Netz_Bezug`) AS `Bezug`, max(`SMA_TAGES_DATEN`.`Netz_Einspeisung`) AS `Einspeisung`, max(`SMA_TAGES_DATEN`.`Haus_Verbrauch`) AS `Verbrauch`, max(`SMA_TAGES_DATEN`.`Auto_Verbrauch`) AS `Auto`, max(`SMA_TAGES_DATEN`.`Direkt_Verbrauch`) AS `Direkt` FROM `SMA_TAGES_DATEN` GROUP BY substr(`SMA_TAGES_DATEN`.`DATUM`,1,10) ORDER BY substr(`SMA_TAGES_DATEN`.`DATUM`,1,10) ASC ;
 
 -- --------------------------------------------------------
 
@@ -1149,7 +1149,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `SMA_Tages
 --
 DROP TABLE IF EXISTS `StromDatenVergleich_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `StromDatenVergleich_V`  AS SELECT `d`.`DATUM` AS `DATUM`, `d`.`PV_Energie` AS `PV_Energie`, `t`.`PV` AS `PV`, `EB`.`PVErzeugung` AS `PVErzeugung`, `d`.`BKW_Energie` AS `BKW_Energie`, `t`.`BKW` AS `BKW`, `d`.`Netz_Bezug` AS `Netz_Bezug`, `t`.`Bezug` AS `Bezug`, `EB`.`Netzbezug`* 1000 AS `EB_Netzbezug`, `d`.`Netz_Einspeisung` AS `Netz_Einspeisung`, `t`.`Einspeisung` AS `Einspeisung`, `EB`.`Netzeinspeisung` AS `Netzeinspeisung`, `d`.`Haus_Verbrauch` AS `Haus_Verbrauch`, `t`.`Verbrauch` AS `Verbrauch`, `EB`.`Verbrauch`* 1000 AS `SMA_Verbrauch`, `d`.`Auto_Verbrauch` AS `Auto_Verbrauch`, `t`.`Auto` AS `Auto`, `d`.`Direkt_Verbrauch` AS `Direkt_Verbrauch`, `t`.`Direkt` AS `Direkt`, `EB`.`DirektVerbrauch`* 1000 + `d`.`Haus_Verbrauch` + `d`.`Auto_Verbrauch` - `EB`.`Verbrauch` * 1000 AS `EB_Direkt`, `EB`.`DirektVerbrauch`* 1000 AS `EB_DirektVerbrauch` FROM ((`SMA_DATEN` `d` join `SMA_TagesDaten_V` `t` on(`t`.`Tag` = `d`.`DATUM`)) join `SMA_EnergieBilanz_Tag` `EB` on(`EB`.`DATUM` = `d`.`DATUM`)) ORDER BY `d`.`DATUM` DESC ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `StromDatenVergleich_V`  AS SELECT `d`.`DATUM` AS `DATUM`, `d`.`PV_Energie` AS `PV_Energie`, `t`.`PV` AS `PV`, `EB`.`PVErzeugung` AS `PVErzeugung`, `d`.`BKW_Energie` AS `BKW_Energie`, `t`.`BKW` AS `BKW`, `d`.`Netz_Bezug` AS `Netz_Bezug`, `t`.`Bezug` AS `Bezug`, `EB`.`Netzbezug`* 1000 AS `EB_Netzbezug`, `d`.`Netz_Einspeisung` AS `Netz_Einspeisung`, `t`.`Einspeisung` AS `Einspeisung`, `EB`.`Netzeinspeisung` AS `Netzeinspeisung`, `d`.`Haus_Verbrauch` AS `Haus_Verbrauch`, `t`.`Verbrauch` AS `Verbrauch`, `EB`.`Verbrauch`* 1000 AS `SMA_Verbrauch`, `d`.`Auto_Verbrauch` AS `Auto_Verbrauch`, `t`.`Auto` AS `Auto`, `d`.`Direkt_Verbrauch` AS `Direkt_Verbrauch`, `t`.`Direkt` AS `Direkt`, `EB`.`DirektVerbrauch`* 1000 + `d`.`Haus_Verbrauch` + `d`.`Auto_Verbrauch` - `EB`.`Verbrauch` * 1000 AS `EB_Direkt`, `EB`.`DirektVerbrauch`* 1000 AS `EB_DirektVerbrauch` FROM ((`SMA_DATEN` `d` join `SMA_TagesDaten_V` `t` on(`t`.`Tag` = `d`.`DATUM`)) join `SMA_EnergieBilanz_Tag` `EB` on(`EB`.`DATUM` = `d`.`DATUM`)) ORDER BY `d`.`DATUM` DESC ;
 
 -- --------------------------------------------------------
 
@@ -1158,7 +1158,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `StromDate
 --
 DROP TABLE IF EXISTS `STROM_BEZUG_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_BEZUG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`STROM_BEZUG`.`DATUM`,1,7) AS `Monat`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,7) order by `STROM_BEZUG`.`DATUM` desc) `a` join (select substr(`STROM_BEZUG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,7) order by `STROM_BEZUG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `STROM_BEZUG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`STROM_BEZUG`.`DATUM`,1,7) AS `Monat`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,7) order by `STROM_BEZUG`.`DATUM` desc) `a` join (select substr(`STROM_BEZUG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,7) order by `STROM_BEZUG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1167,7 +1167,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_BEZ
 --
 DROP TABLE IF EXISTS `STROM_BEZUG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_BEZUG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`STROM_BEZUG`.`DATUM`,1,10) AS `Tag`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,10) order by `STROM_BEZUG`.`DATUM` desc) `a` join (select substr(`STROM_BEZUG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,10) order by `STROM_BEZUG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `STROM_BEZUG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`STROM_BEZUG`.`DATUM`,1,10) AS `Tag`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,10) order by `STROM_BEZUG`.`DATUM` desc) `a` join (select substr(`STROM_BEZUG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`STROM_BEZUG`.`WERT`) AS `Wert` from `STROM_BEZUG` group by substr(`STROM_BEZUG`.`DATUM`,1,10) order by `STROM_BEZUG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1176,7 +1176,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_BEZ
 --
 DROP TABLE IF EXISTS `STROM_EINSPEISUNG_MonatsWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_EINSPEISUNG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`STROM_EINSPEISUNG`.`DATUM`,1,7) AS `Monat`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,7) order by `STROM_EINSPEISUNG`.`DATUM` desc) `a` join (select substr(`STROM_EINSPEISUNG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,7) order by `STROM_EINSPEISUNG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `STROM_EINSPEISUNG_MonatsWerte_V`  AS SELECT `a`.`Monat` AS `Monat`, `a`.`Wert`- `b`.`Wert` AS `MonatsWert` FROM ((select substr(`STROM_EINSPEISUNG`.`DATUM`,1,7) AS `Monat`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,7) order by `STROM_EINSPEISUNG`.`DATUM` desc) `a` join (select substr(`STROM_EINSPEISUNG`.`DATUM` + interval 1 month,1,7) AS `Monat`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,7) order by `STROM_EINSPEISUNG`.`DATUM` desc) `b` on(`a`.`Monat` = `b`.`Monat`)) ;
 
 -- --------------------------------------------------------
 
@@ -1185,7 +1185,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_EIN
 --
 DROP TABLE IF EXISTS `STROM_EINSPEISUNG_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_EINSPEISUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`STROM_EINSPEISUNG`.`DATUM`,1,10) AS `Tag`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,10) order by `STROM_EINSPEISUNG`.`DATUM` desc) `a` join (select substr(`STROM_EINSPEISUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,10) order by `STROM_EINSPEISUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `STROM_EINSPEISUNG_TagesWerte_V`  AS SELECT `a`.`Tag` AS `Tag`, `a`.`Wert`- `b`.`Wert` AS `TagesWert` FROM ((select substr(`STROM_EINSPEISUNG`.`DATUM`,1,10) AS `Tag`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,10) order by `STROM_EINSPEISUNG`.`DATUM` desc) `a` join (select substr(`STROM_EINSPEISUNG`.`DATUM` + interval 1 day,1,10) AS `Tag`,max(`STROM_EINSPEISUNG`.`WERT`) AS `Wert` from `STROM_EINSPEISUNG` group by substr(`STROM_EINSPEISUNG`.`DATUM`,1,10) order by `STROM_EINSPEISUNG`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag`)) ;
 
 -- --------------------------------------------------------
 
@@ -1194,7 +1194,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_EIN
 --
 DROP TABLE IF EXISTS `STROM_Verbrauch_TagesWerte_V`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`pi`@`%` SQL SECURITY DEFINER VIEW `STROM_Verbrauch_TagesWerte_V`  AS SELECT `t`.`Tag` AS `Tag`, `t`.`Zeit` AS `Zeit`, `t`.`Wert` AS `Wert` FROM (select substr(`c`.`DATUM`,1,10) AS `Tag`,`c`.`DATUM` AS `Zeit`,`c`.`Haus_Verbrauch` AS `Wert` from `SMA_TAGES_DATEN` `c` where `c`.`Haus_Verbrauch` > 0 and `c`.`DATUM` >= '2024-07-01' union select `a`.`Tag` AS `Tag`,`a`.`Zeit` AS `Zeit`,`a`.`Wert` - `b`.`Wert` AS `Wert` from ((select substr(`a`.`DATUM`,1,10) AS `Tag`,`a`.`DATUM` AS `Zeit`,`a`.`Haus_Verbrauch` AS `Wert` from `SMA_TAGES_DATEN` `a` where `a`.`Haus_Verbrauch` < 0 order by `a`.`DATUM` desc) `a` join (select substr(`a`.`DATUM`,1,10) AS `Tag`,`a`.`DATUM` AS `Zeit`,min(`a`.`Haus_Verbrauch`) AS `Wert` from `SMA_TAGES_DATEN` `a` where `a`.`Haus_Verbrauch` < 0 group by substr(`a`.`DATUM`,1,10) order by `a`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag` and `b`.`Zeit` <> `a`.`Zeit`)) where `a`.`Tag` >= '2024-07-01') AS `t` ORDER BY `t`.`Zeit` DESC ;
+CREATE  DEFINER = `pi`@`%` SQL SECURITY DEFINER VIEW `STROM_Verbrauch_TagesWerte_V`  AS SELECT `t`.`Tag` AS `Tag`, `t`.`Zeit` AS `Zeit`, `t`.`Wert` AS `Wert` FROM (select substr(`c`.`DATUM`,1,10) AS `Tag`,`c`.`DATUM` AS `Zeit`,`c`.`Haus_Verbrauch` AS `Wert` from `SMA_TAGES_DATEN` `c` where `c`.`Haus_Verbrauch` > 0 and `c`.`DATUM` >= '2024-07-01' union select `a`.`Tag` AS `Tag`,`a`.`Zeit` AS `Zeit`,`a`.`Wert` - `b`.`Wert` AS `Wert` from ((select substr(`a`.`DATUM`,1,10) AS `Tag`,`a`.`DATUM` AS `Zeit`,`a`.`Haus_Verbrauch` AS `Wert` from `SMA_TAGES_DATEN` `a` where `a`.`Haus_Verbrauch` < 0 order by `a`.`DATUM` desc) `a` join (select substr(`a`.`DATUM`,1,10) AS `Tag`,`a`.`DATUM` AS `Zeit`,min(`a`.`Haus_Verbrauch`) AS `Wert` from `SMA_TAGES_DATEN` `a` where `a`.`Haus_Verbrauch` < 0 group by substr(`a`.`DATUM`,1,10) order by `a`.`DATUM` desc) `b` on(`a`.`Tag` = `b`.`Tag` and `b`.`Zeit` <> `a`.`Zeit`)) where `a`.`Tag` >= '2024-07-01') AS `t` ORDER BY `t`.`Zeit` DESC ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
