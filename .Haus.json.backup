@@ -3272,7 +3272,7 @@
         "z": "9c1295b5ec6ef860",
         "g": "53f56fc820696774",
         "name": "SMA_Tages_Daten",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
